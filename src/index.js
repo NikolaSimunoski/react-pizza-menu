@@ -66,21 +66,26 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+
   return (
     <div className="menu">
       <h2>Our menu</h2>
 
-      <ul className="pizzas">
-        {pizzaData.map((pizza) => (
-          <Pizza
-            name={pizza.name}
-            photoName={pizza.photoName}
-            ingredients={pizza.ingredients}
-            price={pizza.price}
-            key={pizza.name}
-          />
-        ))}
-      </ul>
+      {pizzas.length > 0 && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza
+              name={pizza.name}
+              photoName={pizza.photoName}
+              ingredients={pizza.ingredients}
+              price={pizza.price}
+              key={pizza.name}
+            />
+          ))}
+        </ul>
+      )}
+
       {/* <Pizza
         name="Pizza Spinaci"
         ingredients="Tomato, mozarella, ham, aragula, and burrata cheese"
@@ -107,20 +112,29 @@ function Pizza(props) {
 function Footer() {
   //const [openStatus, setOpenStatus] = React.useState("");
   const hour = new Date().getHours();
-  const openHour = 9;
-  const closeHour = 17;
+  const minutes = new Date().getMinutes();
+  console.log("minutes", minutes);
 
-  if (hour >= openHour && hour <= closeHour) {
-    //setOpenStatus("We're currently open!");
-    alert("We're currently open!");
-  } else {
-    //setOpenStatus("Sorry we're closed");
-    alert("Sorry we're closed");
-  }
+  const openHour = 9;
+  const closeHour = 18;
+  const isOpen = hour >= openHour && hour <= closeHour;
+
+  // if (hour >= openHour && hour <= closeHour) {
+  //   //setOpenStatus("We're currently open!");
+  //   alert("We're currently open!");
+  // } else {
+  //   //setOpenStatus("Sorry we're closed");
+  //   alert("Sorry we're closed");
+  // }
 
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open!
+      {isOpen && (
+        <div className="order">
+          <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+          <button className="btn">Order</button>
+        </div>
+      )}
     </footer>
   );
   //return React.createElement("footer", null, "We're cuirrently open!");
