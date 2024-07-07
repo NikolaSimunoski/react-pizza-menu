@@ -71,18 +71,10 @@ function Menu() {
   return (
     <div className="menu">
       <h2>Our menu</h2>
-
       {pizzas.length > 0 ? (
         <ul className="pizzas">
           {pizzas.map((pizza) => (
-            <Pizza
-              name={pizza.name}
-              photoName={pizza.photoName}
-              ingredients={pizza.ingredients}
-              price={pizza.price}
-              key={pizza.name}
-              soldOut={pizza.soldOut}
-            />
+            <Pizza pizzaObj={pizza} key={pizza.name} />
           ))}
         </ul>
       ) : (
@@ -99,16 +91,16 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  if (props.soldOut) return null;
+function Pizza({ pizzaObj }) {
+  if (pizzaObj.soldOut) return null;
 
   return (
     <li className="pizza">
-      <img src={props.photoName} alt="Pizza spinaci"></img>
+      <img src={pizzaObj.photoName} alt="Pizza spinaci"></img>
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>Price: {props.price}$</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>Price: {pizzaObj.price}$</span>
       </div>
     </li>
   );
@@ -143,7 +135,7 @@ function Footer() {
   return (
     <footer className="footer">
       {isOpen ? (
-        <Order closeHour={closeHour} />
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
           We're happy to welcome you between {openHour}:00 and {closeHour}:00.
@@ -154,11 +146,12 @@ function Footer() {
   //return React.createElement("footer", null, "We're cuirrently open!");
 }
 
-function Order(props) {
+function Order({ closeHour, openHour }) {
   return (
     <div className="order">
       <p>
-        We're open until {props.closeHour}:00. Come visit us or order online.
+        We're open from {openHour}:00 to {closeHour}:00. Come visit us or order
+        online.
       </p>
       <button className="btn">Order</button>
     </div>
